@@ -111,8 +111,10 @@ jobs:
         with:
           name: build
       - name: Delete artifact
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo ${GITHUB_RUN_ID}
+          wget -qO- "https://${GITHUB_TOKEN}@github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts"
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
