@@ -110,6 +110,9 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: build
+      - name: Delete artifact
+        run: |
+          echo ${GITHUB_RUN_ID}
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
