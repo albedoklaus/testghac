@@ -8,7 +8,9 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Install dependencies
+        run: apt update && apt install -y git hub
       - name: Checkout
         uses: actions/checkout@v2
       - name: Create release
-        run: apt update && apt install -y hub && hub release create -m "$(date)" "v$(date +%s)"
+        run: hub release create -m "$(date)" "v$(date +%s)"
