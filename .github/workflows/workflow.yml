@@ -11,4 +11,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Create release
-        run: hub release create -m "$(date)" "v$(date +%s)"
+        run: apt update && apt install -y hub && hub release create -m "$(date)" "v$(date +%s)"
