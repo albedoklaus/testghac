@@ -110,15 +110,12 @@ jobs:
         uses: actions/download-artifact@v1
         with:
           name: build
-      - name: Delete artifact
+      - name: Delete artifacts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "https://${GITHUB_TOKEN}@github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" || true
-          wget -qO- "https://${GITHUB_TOKEN}@github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" || true
-          curl "https://${GITHUB_TOKEN}@github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" || true
-          wget -qO- "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" || true
-          curl "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" || true
+          wget -qO- "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts" || true
+          curl "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts" || true
           wget -qO- "https://${GITHUB_TOKEN}@api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" || true
           curl "https://${GITHUB_TOKEN}@api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" || true
       - name: Create release
