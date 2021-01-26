@@ -111,19 +111,13 @@ jobs:
         with:
           name: build
       - name: Delete artifacts
-        shell: python
-        run: |
-          import requests
-          print(requests.__version__)
-      - name: Delete artifacts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -i -H "Authorization: token ${GITHUB_TOKEN}" -X DELETE "https://${GITHUB_TOKEN}@api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/37197083" || true
-          wget -qO- "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts" || true
-          curl "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts" || true
-          wget -qO- "https://${GITHUB_TOKEN}@api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" || true
-          curl "https://${GITHUB_TOKEN}@api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts" || true
+          for id in $(curl "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts" | sed -n 's/.*"id": \([0-9]*\).*/\1/p')
+          do
+            curl -i -H "Authorization: token ${GITHUB_TOKEN}" -X DELETE "https://${GITHUB_TOKEN}@api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/$id" || true
+          done
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
