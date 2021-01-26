@@ -111,6 +111,11 @@ jobs:
         with:
           name: build
       - name: Delete artifacts
+        shell: python
+        run: |
+          import requests
+          print(requests.__version__)
+      - name: Delete artifacts
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
