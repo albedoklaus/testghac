@@ -8,4 +8,4 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Create release
-        run: hub release create -m "$GITHUB_SHA" "$GITHUB_SHA"
+        run: hub release create -m "$GITHUB_SHA" v0.1
