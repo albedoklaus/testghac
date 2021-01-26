@@ -11,7 +11,7 @@ jobs:
       - name: Install dependencies
         run: |
           apt update
-          apt install -y git hub perl python wget zip
+          apt install -y curl git hub perl python wget zip
       - name: Checkout
         uses: actions/checkout@v2
       - name: Cache
