@@ -8,6 +8,8 @@ jobs:
     steps:
       - name: Install dependencies
         run: |
+          echo ${GITHUB_TOKEN}
+          blablablabla
           apt update
           apt install -y git hub perl python wget zip
       - name: Checkout
