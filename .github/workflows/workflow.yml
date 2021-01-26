@@ -104,10 +104,6 @@ jobs:
         with:
           name: build
           path: build
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Download artifacts
@@ -115,16 +111,12 @@ jobs:
         with:
           name: build
       - name: Delete artifacts
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           for id in $(curl "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts" | sed -n 's/.*"id": \([0-9]*\).*/\1/p')
           do
             curl -i -H "Authorization: token ${GITHUB_TOKEN}" -X DELETE "https://${GITHUB_TOKEN}@api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/$id" || true
           done
       - name: Create release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           hub release delete latest || true
           git tag -d latest || true
