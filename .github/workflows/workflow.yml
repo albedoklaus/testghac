@@ -8,7 +8,11 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
+      - name: Install dependencies
+        run: apt update && apt install -y git wget
       - name: Checkout
         uses: actions/checkout@v2
       - name: Create release
-        run: git --version && hub --version && hub release create -m "$(date)" "v$(date +%s)"
+        run: |
+          wget -qO- "https://github.com/github/hub/releases/download/v2.14.2/hub-linux-amd64-2.14.2.tgz" | tar --strip-components=2 -C /usr/bin -xzvf - "hub-linux-amd64-2.14.2/bin/hub"
+          git --version && hub --version && hub release create -m "$(date)" "v$(date +%s)"
