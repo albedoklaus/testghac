@@ -9,11 +9,11 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - name: Install dependencies
-        run: apt update && apt install -y git wget
+        run: |
+          apt update && apt install -y git wget
+          url="$(wget -qO- https://api.github.com/repos/github/hub/releases/latest | tr '"' '\n' | grep '.*/download/.*/hub-linux-amd64-.*.tgz')"
+          wget -qO- "$url" | tar -xzvf- -C /usr/bin --strip-components=2 --wildcards "*/bin/hub"
       - name: Checkout
         uses: actions/checkout@v2
       - name: Create release
-        run: |
-          url="$(wget -qO- https://api.github.com/repos/github/hub/releases/latest | tr '"' '\n' | grep '.*/download/.*/hub-linux-amd64-.*.tgz')"
-          wget -qO- "$url" | tar -xzvf- -C /usr/bin --strip-components=2 --wildcards "*/bin/hub"
-          git --version && hub --version && hub release create -m "$(date)" "v$(date +%s)"
+        run: hub release create -m "$(date)" "v$(date +%s)"
