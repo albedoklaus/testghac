@@ -3,14 +3,10 @@ on: [push]
 jobs:
   create_release:
     runs-on: ubuntu-latest
-    container:
-      image: ubuntu:latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - name: Install dependencies
-        run: apt update && apt install -y git hub
       - name: Checkout
         uses: actions/checkout@v2
       - name: Create release
-        run: hub release create -m "$(date)" "v$(date +%s)"
+        run: git --version && hub --version && hub release create -m "$(date)" "v$(date +%s)"
